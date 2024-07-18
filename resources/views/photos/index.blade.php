@@ -6,7 +6,7 @@
     <div class="gallery__grid">
         @foreach($photos as $photo)
             <div class="photo-card">
-                <img src="{{ asset('storage/' . $photo->path) }}" class="photo-card__image" alt="{{ $photo->title }}">
+                <img src="{{ asset($photo->path) }}" class="photo-card__image" alt="{{ $photo->title }}">
                 <div class="photo-card__body">
                     <h5 class="photo-card__title">{{ $photo->title }}</h5>
                     <p class="photo-card__text">Category: {{ $photo->category }}</p>

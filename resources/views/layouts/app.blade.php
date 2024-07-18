@@ -34,8 +34,10 @@
                         <a href="{{ route('login') }}" class="header__link">ログイン</a>
                         <a href="{{ route('register') }}" class="header__link">アカウント登録</a>
                     @else
-                        <span class="header__username">{{ Auth::user()->nickname ?? Auth::user()->name }}</span>
                         <a href="{{ route('photos.create') }}" class="header__link">写真アップロード</a>
+                        <span class="header__username">{{ Auth::user()->nickname ?? Auth::user()->name }}</span>
+                        <img src="{{ Auth::user()->profile_image ? asset('img/profile/' . AAuth::user()->user()->profile_image) : asset('img/noimage.png') }}"
+                            alt="プロフィール画像">
                         <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
                             @csrf
                             <button type="submit" class="header__logout-button">ログアウト</button>
@@ -54,4 +56,5 @@
         </div>
     </footer>
 </body>
+
 </html>
