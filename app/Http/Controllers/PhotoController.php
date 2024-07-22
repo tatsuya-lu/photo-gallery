@@ -15,9 +15,9 @@ class PhotoController extends Controller
         $this->photoService = $photoService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $photos = $this->photoService->getAllPhotos();
+        $photos = $this->photoService->getPhotos($request);
         return view('photos.index', compact('photos'));
     }
 
@@ -25,6 +25,25 @@ class PhotoController extends Controller
     {
         $photos = $this->photoService->searchPhotos($request->query('keyword'));
         return view('photos.index', compact('photos'));
+    }
+
+    public function show($id)
+    {
+        $photo = $this->photoService->getPhotoById($id);
+        return view('photos.show', compact('photo'));
+    }
+
+    public function toggleFavorite($id)
+    {
+        $photo = $this->photoService->getPhotoById($id);
+        $this->photoService->toggleFavorite($photo, auth()->user());
+        return response()->json(['isFavorited' => $photo->isFavoritedBy(auth()->user()), 'favoritesCount' => $photo->favorites_count]);
+    }
+
+    public function favoritesList()
+    {
+        $favorites = $this->photoService->getFavoritePhotos(auth()->user());
+        return view('photos.favorites', compact('favorites'));
     }
 
     public function download($id)

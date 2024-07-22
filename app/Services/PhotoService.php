@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Photo;
+use App\Models\Account;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
@@ -33,15 +34,43 @@ class PhotoService
         return 'img/photos/' . $filename;
     }
 
-    public function getAllPhotos()
+    public function getPhotos($request)
     {
-        return Photo::all();
+        $query = Photo::query();
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('category', 'LIKE', '%' . $searchTerm . '%');
+            });
+        }
+
+        $sortOrder = $request->get('sort_order', 'desc');
+        $query->orderBy('created_at', $sortOrder);
+
+        return $query->paginate(12);
     }
 
-    public function searchPhotos($keyword)
+    public function getPhotoById($id)
     {
-        return Photo::where('title', 'LIKE', '%' . $keyword . '%')->get();
+        return Photo::findOrFail($id);
     }
+
+    public function toggleFavorite(Photo $photo, Account $account)
+    {
+        if ($photo->isFavoritedBy($account)) {
+            $photo->favorites()->detach($account->id);
+        } else {
+            $photo->favorites()->attach($account->id);
+        }
+    }
+
+    public function getFavoritePhotos(Account $account)
+    {
+        return $account->favorites()->paginate(12);
+    }
+
 
     public function downloadPhoto($id)
     {
@@ -58,6 +87,7 @@ class PhotoService
             'category' => $request->category,
             'path' => $path,
             'user_id' => auth()->id(),
+            'favorites_count' => 0,
         ]);
     }
 

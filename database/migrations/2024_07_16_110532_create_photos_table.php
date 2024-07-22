@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('path');
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('downloads_count')->default(0);
+            $table->unsignedInteger('favorites_count')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('accounts')->onDelete('cascade');

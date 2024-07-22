@@ -36,8 +36,9 @@
                     @else
                         <a href="{{ route('photos.create') }}" class="header__link">写真アップロード</a>
                         <span class="header__username">{{ Auth::user()->nickname ?? Auth::user()->name }}</span>
-                        <img src="{{ Auth::user()->profile_image ? asset('img/profile/' . AAuth::user()->user()->profile_image) : asset('img/noimage.png') }}"
+                        <img src="{{ Auth::user()->profile_image ? asset('img/profile/' . Auth::user()->user()->profile_image) : asset('img/noimage.png') }}"
                             alt="プロフィール画像">
+                            <a href="{{ route('photos.favorites')}}">お気に入り一覧</a>
                         <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
                             @csrf
                             <button type="submit" class="header__logout-button">ログアウト</button>
@@ -55,6 +56,7 @@
             <p class="footer__copyright">&copy; {{ date('Y') }} Photo Gallery. All rights reserved.</p>
         </div>
     </footer>
+    <script src="{{ asset('js/favorite.js') }}"></script>
 </body>
 
 </html>

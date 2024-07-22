@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [PhotoController::class, 'index'])->name('photos.index');
 Route::get('/photos/create', [PhotoController::class, 'create'])->name('photos.create')->middleware('auth');
+Route::get('/photos/{id}', [PhotoController::class, 'show'])->name('photos.show');
 Route::post('/photos/upload', [PhotoController::class, 'upload'])->name('photos.upload')->middleware('auth');
 Route::get('/photos/download/{id}', [PhotoController::class, 'download'])->name('photos.download');
-Route::post('/photos/favorite/{id}', [PhotoController::class, 'favorite'])->name('photos.favorite')->middleware('auth');
+Route::post('/photos/{id}/favorite', [PhotoController::class, 'toggleFavorite'])->name('photos.toggleFavorite')->middleware('auth');
+Route::get('/favorites', [PhotoController::class, 'favoritesList'])->name('photos.favorites')->middleware('auth');

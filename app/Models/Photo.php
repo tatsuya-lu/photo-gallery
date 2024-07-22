@@ -15,15 +15,21 @@ class Photo extends Model
         'path',
         'user_id',
         'downloads_count',
+        'favorites_count',
     ];
 
     public function favorites()
     {
-        return $this->belongsToMany(User::class, 'favorites');
+        return $this->belongsToMany(Account::class, 'favorites')->withTimestamps();
     }
 
-    public function user()
+    public function isFavoritedBy(Account $account)
     {
-        return $this->belongsTo(User::class);
+        return $this->favorites->contains($account);
+    }
+    
+    public function getFavoritesCountAttribute()
+    {
+        return $this->favorites()->count();
     }
 }

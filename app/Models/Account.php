@@ -30,4 +30,9 @@ class Account extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Photo::class, 'favorites')->withTimestamps();
+    }
 }
