@@ -2,21 +2,7 @@
 
 @section('content')
     <div class="gallery">
-        <h1 class="gallery__title">Photo Gallery</h1>
-
-        <form action="{{ route('photos.index') }}" method="GET" class="search-form">
-            <input type="text" name="search" placeholder="タイトルかカテゴリーを入力してください。" value="{{ request('search') }}" class="search-form__input">
-            <div class="search-form__select-wrapper">
-                <select name="sort_order" class="search-form__select">
-                    <option value="desc" {{ request('sort_order', 'desc') == 'desc' ? 'selected' : '' }}>新着順</option>
-                    <option value="asc" {{ request('sort_order') == 'asc' ? 'selected' : '' }}>古い順</option>
-                </select>
-                <span class="search-form__select-icon">
-                    <i class="fas fa-chevron-down"></i>
-                </span>
-            </div>
-            <button type="submit" class="search-form__button">検索</button>
-        </form>
+        <h1 class="gallery__title">マイフォト</h1>
         <div class="gallery__grid">
             @foreach ($photos as $photo)
                 <div class="photo-card">
@@ -36,12 +22,17 @@
                                     <i class="fas fa-heart"></i>
                                     <span class="favorites-count">{{ $photo->favorites_count }}</span>
                                 </button>
+                                <form action="{{ route('photos.destroy', $photo->id) }}" method="POST" onsubmit="return confirm('本当にこの写真を削除しますか？');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">削除</button>
+                                </form>
                             @endauth
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
-        {{ $photos->appends(request()->query())->links() }}
+        {{ $photos->links() }}
     </div>
 @endsection

@@ -26,27 +26,27 @@
 
 <body class="page">
     <header class="header">
-        <nav class="header__nav">
-            <div class="header__container">
-                <a href="{{ route('photos.index') }}" class="header__logo">Photo Gallery</a>
-                <div class="header__menu">
-                    @guest
-                        <a href="{{ route('login') }}" class="header__link">ログイン</a>
-                        <a href="{{ route('register') }}" class="header__link">アカウント登録</a>
-                    @else
-                        <a href="{{ route('photos.create') }}" class="header__link">写真アップロード</a>
-                        <span class="header__username">{{ Auth::user()->nickname ?? Auth::user()->name }}</span>
-                        <img src="{{ Auth::user()->profile_image ? asset('img/profile/' . Auth::user()->user()->profile_image) : asset('img/noimage.png') }}"
-                            alt="プロフィール画像">
-                            <a href="{{ route('photos.favorites')}}">お気に入り一覧</a>
+        <div class="header__container">
+            <a href="{{ route('photos.index') }}" class="header__logo">Photo Gallery</a>
+            <nav class="header__nav">
+                @guest
+                    <a href="{{ route('login') }}" class="header__link">ログイン</a>
+                    <a href="{{ route('register') }}" class="header__link">アカウント登録</a>
+                @else
+                    <a href="{{ route('photos.create') }}" class="header__link">写真を投稿する</a>
+                    <a href="{{ route('photos.favorites')}}" class="header__link">お気に入り一覧</a>
+                    <a href="{{ route('account.photos') }}" class="header__link">投稿した写真一覧</a>
+                    <div class="header__user">
+                        <span class="header__user-name">{{ Auth::user()->nickname ?? Auth::user()->name }}</span>
+                        <img src="{{ Auth::user()->profile_image ? asset('img/profile/' . Auth::user()->profile_image) : asset('img/noimage.png') }}" alt="プロフィール画像" class="header__user-image">
                         <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
                             @csrf
                             <button type="submit" class="header__logout-button">ログアウト</button>
                         </form>
-                    @endguest
-                </div>
-            </div>
-        </nav>
+                    </div>
+                @endguest
+            </nav>
+        </div>
     </header>
     <main class="main">
         @yield('content')
@@ -57,6 +57,7 @@
         </div>
     </footer>
     <script src="{{ asset('js/favorite.js') }}"></script>
+    <script src="{{ asset('js/delete_photo.js') }}"></script>
 </body>
 
 </html>

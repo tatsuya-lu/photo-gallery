@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="gallery">
-    <h1 class="gallery__title">お気に入り写真</h1>
+    <h1 class="gallery__title">お気に入り一覧</h1>
     <div class="gallery__grid">
         @foreach($favorites as $photo)
         <div class="photo-card">
@@ -11,10 +11,10 @@
             </a>
             <div class="photo-card__body">
                 <h5 class="photo-card__title">{{ $photo->title }}</h5>
-                <p class="photo-card__text">Category: {{ $photo->category }}</p>
-                <p class="photo-card__text">Downloads: {{ $photo->downloads_count }}</p>
+                <p class="photo-card__text">カテゴリー: {{ $photo->category }}</p>
+                <p class="photo-card__text">ダウンロード数: {{ $photo->downloads_count }}</p>
                 <div class="photo-card__actions">
-                    <a href="{{ route('photos.download', $photo->id) }}" class="photo-card__button">Download</a>
+                    <a href="{{ route('photos.download', $photo->id) }}" class="photo-card__button">ダウンロード</a>
                     @auth
                         <button type="button" class="photo-card__button photo-card__button--favorite"
                             data-photo-id="{{ $photo->id }}"
