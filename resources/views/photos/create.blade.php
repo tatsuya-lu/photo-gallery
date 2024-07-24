@@ -10,7 +10,7 @@
             <input type="text" class="upload-form__input" id="title" name="title" required>
         </div>
         <div class="upload-form__field">
-            <label for="category" class="upload-form__label">カテゴリー</label>
+            <label for="category" class="upload-form__label">カテゴリー（カンマ区切りで複数入力可能）</label>
             <input type="text" class="upload-form__input" id="category" name="category" required>
         </div>
         <div class="upload-form__field">

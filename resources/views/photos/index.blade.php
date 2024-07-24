@@ -16,7 +16,7 @@
                 </span>
             </div>
             <button type="submit" class="search-form__button">検索</button>
-        </form>
+        </form>        
         <div class="gallery__grid">
             @foreach ($photos as $photo)
                 <div class="photo-card">
@@ -43,5 +43,15 @@
             @endforeach
         </div>
         {{ $photos->appends(request()->query())->links() }}
+        <div class="categories">
+            <h2 class="categories__title">カテゴリー</h2>
+            <div class="categories__list">
+                @foreach($categories as $category)
+                    <a href="{{ route('photos.index', ['category' => $category->name]) }}" class="categories__item">
+                        {{ $category->name }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
     </div>
 @endsection

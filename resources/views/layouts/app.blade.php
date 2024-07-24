@@ -37,12 +37,20 @@
                     <a href="{{ route('photos.favorites')}}" class="header__link">お気に入り一覧</a>
                     <a href="{{ route('account.photos') }}" class="header__link">投稿した写真一覧</a>
                     <div class="header__user">
-                        <span class="header__user-name">{{ Auth::user()->nickname ?? Auth::user()->name }}</span>
-                        <img src="{{ Auth::user()->profile_image ? asset('img/profile/' . Auth::user()->profile_image) : asset('img/noimage.png') }}" alt="プロフィール画像" class="header__user-image">
-                        <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
-                            @csrf
-                            <button type="submit" class="header__logout-button">ログアウト</button>
-                        </form>
+                        <a href="#" class="header__user-link header__link" id="userDropdown" role="button" aria-expanded="false">
+                            <span class="header__user-name">{{ Auth::user()->nickname ?? Auth::user()->name }}</span>
+                            <img src="{{ Auth::user()->profile_image ? asset('img/profile/' . Auth::user()->profile_image) : asset('img/noimage.png') }}" alt="プロフィール画像" class="header__user-image">
+                        </a>
+                        <ul class="header__dropdown" aria-labelledby="userDropdown">
+                            <li><a class="header__dropdown-item" href="{{ route('account.edit') }}">アカウント情報の編集</a></li>
+                            <li><hr class="header__dropdown-divider"></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
+                                    @csrf
+                                    <button type="submit" class="header__dropdown-item">ログアウト</button>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
                 @endguest
             </nav>

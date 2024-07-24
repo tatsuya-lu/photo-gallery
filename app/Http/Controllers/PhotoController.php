@@ -18,7 +18,8 @@ class PhotoController extends Controller
     public function index(Request $request)
     {
         $photos = $this->photoService->getPhotos($request);
-        return view('photos.index', compact('photos'));
+        $categories = $this->photoService->getAllCategories();
+        return view('photos.index', compact('photos', 'categories'));
     }
 
     public function search(Request $request)
@@ -65,6 +66,7 @@ class PhotoController extends Controller
     public function upload(PhotoRequest $request)
     {
         $this->photoService->uploadPhoto($request);
+        $this->photoService->updateCategories($request->category);
         return redirect()->route('photos.index')->with('success', 'Photo uploaded successfully');
     }
 

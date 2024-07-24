@@ -59,16 +59,13 @@ class AccountService
 
     public function update(Account $account, array $data)
     {
-        $account->name = $data['name'];
-        $account->nickname = $data['nickname'];
-        $account->email = $data['email'];
-        $account->bio = $data['bio'];
+        $account->fill(array_diff_key($data, array_flip(['password', 'profile_image'])));
 
-        if (isset($data['password'])) {
+        if (!empty($data['password'])) {
             $account->password = Hash::make($data['password']);
         }
 
-        if (isset($data['profile_image'])) {
+        if (!empty($data['profile_image'])) {
             $account->profile_image = $this->processProfileImage($data['profile_image'], $account);
         }
 

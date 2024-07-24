@@ -19,7 +19,7 @@ class AccountController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('account.register');
+        return view('account.register', ['user' => null]);
     }
 
     public function register(AccountRequest $request)
@@ -62,7 +62,7 @@ class AccountController extends Controller
 
     public function showEditForm()
     {
-        return view('account.edit', ['account' => Auth::user()]);
+        return view('account.register', ['user' => Auth::user()]);
     }
 
     public function update(AccountRequest $request)

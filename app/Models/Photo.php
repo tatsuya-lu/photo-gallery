@@ -23,11 +23,16 @@ class Photo extends Model
         return $this->belongsToMany(Account::class, 'favorites')->withTimestamps();
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
     public function isFavoritedBy(Account $account)
     {
         return $this->favorites->contains($account);
     }
-    
+
     public function getFavoritesCountAttribute()
     {
         return $this->favorites()->count();
