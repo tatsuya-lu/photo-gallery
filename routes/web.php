@@ -15,6 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AccountController::class, 'logout'])->name('logout');
     Route::get('/account/edit', [AccountController::class, 'showEditForm'])->name('account.edit');
     Route::put('/account/update', [AccountController::class, 'update'])->name('account.update');
+    Route::get('/account/photos', [PhotoController::class, 'userPhotos'])->name('account.photos');
     Route::delete('/account/delete', [AccountController::class, 'destroy'])->name('account.delete');
 });
 
@@ -25,3 +26,4 @@ Route::post('/photos/upload', [PhotoController::class, 'upload'])->name('photos.
 Route::get('/photos/download/{id}', [PhotoController::class, 'download'])->name('photos.download');
 Route::post('/photos/{id}/favorite', [PhotoController::class, 'toggleFavorite'])->name('photos.toggleFavorite')->middleware('auth');
 Route::get('/favorites', [PhotoController::class, 'favoritesList'])->name('photos.favorites')->middleware('auth');
+Route::delete('/photos/{id}', [PhotoController::class, 'destroy'])->name('photos.destroy')->middleware('auth');

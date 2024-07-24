@@ -46,6 +46,12 @@ class PhotoController extends Controller
         return view('photos.favorites', compact('favorites'));
     }
 
+    public function userPhotos()
+    {
+        $photos = $this->photoService->getUserPhotos(auth()->user());
+        return view('photos.user_photos', compact('photos'));
+    }
+
     public function download($id)
     {
         return $this->photoService->downloadPhoto($id);
@@ -66,5 +72,17 @@ class PhotoController extends Controller
     {
         $this->photoService->addFavorite($id);
         return redirect()->back()->with('success', 'Photo added to favorites');
+    }
+
+    public function destroy($id)
+    {
+        $photo = $this->photoService->getPhotoById($id);
+
+        if ($photo->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', '削除する権限がありません。');
+        }
+
+        $this->photoService->deletePhoto($photo);
+        return redirect()->route('account.photos')->with('success', '写真が削除されました。');
     }
 }

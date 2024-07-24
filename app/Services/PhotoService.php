@@ -71,6 +71,11 @@ class PhotoService
         return $account->favorites()->paginate(12);
     }
 
+    public function getUserPhotos(Account $account)
+    {
+        return Photo::where('user_id', $account->id)->paginate(12);
+    }
+
 
     public function downloadPhoto($id)
     {
@@ -95,5 +100,14 @@ class PhotoService
     {
         $photo = Photo::findOrFail($id);
         $photo->favorites()->attach(auth()->id());
+    }
+
+    public function deletePhoto(Photo $photo)
+    {
+        if (file_exists(public_path($photo->path))) {
+            unlink(public_path($photo->path));
+        }
+
+        $photo->delete();
     }
 }

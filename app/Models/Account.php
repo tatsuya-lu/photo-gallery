@@ -35,4 +35,9 @@ class Account extends Authenticatable
     {
         return $this->belongsToMany(Photo::class, 'favorites')->withTimestamps();
     }
+
+    public function photos()
+    {
+        return $this->hasMany(Photo::class, 'user_id');
+    }
 }
