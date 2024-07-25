@@ -28,9 +28,9 @@ class Photo extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function isFavoritedBy(Account $account)
+    public function isFavoritedBy(Account $user)
     {
-        return $this->favorites->contains($account);
+        return $this->favorites->contains($user);
     }
 
     public function getFavoritesCountAttribute()

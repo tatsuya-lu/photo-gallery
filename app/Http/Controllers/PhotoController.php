@@ -22,10 +22,28 @@ class PhotoController extends Controller
         return view('photos.index', compact('photos', 'categories'));
     }
 
-    public function search(Request $request)
+    public function create()
     {
-        $photos = $this->photoService->searchPhotos($request->query('keyword'));
-        return view('photos.index', compact('photos'));
+        return view('photos.create');
+    }
+
+    public function upload(PhotoRequest $request)
+    {
+        $this->photoService->uploadPhoto($request);
+        $this->photoService->updateCategories($request->category);
+        return redirect()->route('photos.index')->with('success', '写真が正常に投稿されました。');
+    }
+
+    public function destroy($id)
+    {
+        $photo = $this->photoService->getPhotoById($id);
+
+        if ($photo->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', '削除する権限がありません。');
+        }
+
+        $this->photoService->deletePhoto($photo);
+        return redirect()->route('account.photos')->with('success', '写真が削除されました。');
     }
 
     public function show($id)
@@ -56,35 +74,5 @@ class PhotoController extends Controller
     public function download($id)
     {
         return $this->photoService->downloadPhoto($id);
-    }
-
-    public function create()
-    {
-        return view('photos.create');
-    }
-
-    public function upload(PhotoRequest $request)
-    {
-        $this->photoService->uploadPhoto($request);
-        $this->photoService->updateCategories($request->category);
-        return redirect()->route('photos.index')->with('success', 'Photo uploaded successfully');
-    }
-
-    public function favorite($id)
-    {
-        $this->photoService->addFavorite($id);
-        return redirect()->back()->with('success', 'Photo added to favorites');
-    }
-
-    public function destroy($id)
-    {
-        $photo = $this->photoService->getPhotoById($id);
-
-        if ($photo->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', '削除する権限がありません。');
-        }
-
-        $this->photoService->deletePhoto($photo);
-        return redirect()->route('account.photos')->with('success', '写真が削除されました。');
     }
 }

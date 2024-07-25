@@ -56,7 +56,7 @@ class AccountController extends Controller
             Auth::login($user);
             return redirect()->route('photos.index')->with('success', 'アカウントが正常に登録されました。');
         } else {
-            return redirect()->route('register')->with('error', 'ユーザーの登録に失敗しました。');
+            return redirect()->route('photos.index')->with('error', 'ユーザーの登録に失敗しました。');
         }
     }
 
