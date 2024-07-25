@@ -17,7 +17,7 @@ class AccountService
         $this->imageManager = new ImageManager(new GdDriver());
     }
 
-    private function processProfileImage($image, Account $account)
+    private function processProfileImage($image, Account $user)
     {
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $path = public_path('img/profile');
@@ -32,8 +32,8 @@ class AccountService
         $img->cover(200, 200);
         $img->save($fullPath);
 
-        if ($account->profile_image && file_exists($path . '/' . $account->profile_image)) {
-            unlink($path . '/' . $account->profile_image);
+        if ($user->profile_image && file_exists($path . '/' . $user->profile_image)) {
+            unlink($path . '/' . $user->profile_image);
         }
 
         return $filename;
@@ -41,7 +41,7 @@ class AccountService
 
     public function register(array $data)
     {
-        $account = Account::create([
+        $user = Account::create([
             'name' => $data['name'],
             'nickname' => $data['nickname'] ?? null,
             'email' => $data['email'],
@@ -50,38 +50,38 @@ class AccountService
         ]);
 
         if (isset($data['profile_image'])) {
-            $account->profile_image = $this->processProfileImage($data['profile_image'], $account);
-            $account->save();
+            $user->profile_image = $this->processProfileImage($data['profile_image'], $user);
+            $user->save();
         }
 
-        return $account;
+        return $user;
     }
 
-    public function update(Account $account, array $data)
+    public function update(Account $user, array $data)
     {
-        $account->fill(array_diff_key($data, array_flip(['password', 'profile_image'])));
+        $user->fill(array_diff_key($data, array_flip(['password', 'profile_image'])));
 
         if (!empty($data['password'])) {
-            $account->password = Hash::make($data['password']);
+            $user->password = Hash::make($data['password']);
         }
 
         if (!empty($data['profile_image'])) {
-            $account->profile_image = $this->processProfileImage($data['profile_image'], $account);
+            $user->profile_image = $this->processProfileImage($data['profile_image'], $user);
         }
 
-        $account->save();
+        $user->save();
 
-        return $account;
+        return $user;
     }
 
-    public function destroy(Account $account)
+    public function destroy(Account $user)
     {
-        if ($account->profile_image) {
-            $path = public_path('img/profile/' . $account->profile_image);
+        if ($user->profile_image) {
+            $path = public_path('img/profile/' . $user->profile_image);
             if (file_exists($path)) {
                 unlink($path);
             }
         }
-        $account->delete();
+        $user->delete();
     }
 }

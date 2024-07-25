@@ -17,23 +17,6 @@ class AccountController extends Controller
         $this->accountService = $accountService;
     }
 
-    public function showRegistrationForm()
-    {
-        return view('account.register', ['user' => null]);
-    }
-
-    public function register(AccountRequest $request)
-    {
-        $account = $this->accountService->register($request->all());
-
-        if ($account) {
-            Auth::login($account);
-            return redirect()->route('photos.index')->with('success', 'アカウントが正常に登録されました。');
-        } else {
-            return redirect()->route('register')->with('error', 'ユーザーの登録に失敗しました。');
-        }
-    }
-
     public function showLoginForm()
     {
         return view('account.login');
@@ -60,6 +43,23 @@ class AccountController extends Controller
         return redirect()->route('photos.index');
     }
 
+    public function showRegistrationForm()
+    {
+        return view('account.register', ['user' => null]);
+    }
+
+    public function register(AccountRequest $request)
+    {
+        $user = $this->accountService->register($request->all());
+
+        if ($user) {
+            Auth::login($user);
+            return redirect()->route('photos.index')->with('success', 'アカウントが正常に登録されました。');
+        } else {
+            return redirect()->route('register')->with('error', 'ユーザーの登録に失敗しました。');
+        }
+    }
+
     public function showEditForm()
     {
         return view('account.register', ['user' => Auth::user()]);
@@ -67,15 +67,15 @@ class AccountController extends Controller
 
     public function update(AccountRequest $request)
     {
-        $account = Auth::user();
-        $this->accountService->update($account, $request->all());
+        $user = Auth::user();
+        $this->accountService->update($user, $request->all());
         return redirect()->route('account.edit')->with('success', 'プロフィールが更新されました。');
     }
 
     public function destroy(Request $request)
     {
-        $account = Auth::user();
-        $this->accountService->destroy($account);
+        $user = Auth::user();
+        $this->accountService->destroy($user);
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
