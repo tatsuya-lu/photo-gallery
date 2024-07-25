@@ -82,6 +82,15 @@ class AccountService
                 unlink($path);
             }
         }
+
+        foreach ($user->photos as $photo) {
+            if (file_exists(public_path($photo->path))) {
+                unlink(public_path($photo->path));
+            }
+            $photo->delete();
+        }
+        
+        $user->favorites()->detach();
         $user->delete();
     }
 }

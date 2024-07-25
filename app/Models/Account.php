@@ -40,4 +40,14 @@ class Account extends Authenticatable
     {
         return $this->hasMany(Photo::class, 'user_id');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            $user->photos()->delete();
+            $user->favorites()->detach();
+        });
+    }
 }
