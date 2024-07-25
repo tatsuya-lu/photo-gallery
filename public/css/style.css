@@ -699,3 +699,16 @@ body {
         justify-content: center;
     }
 }
+
+.auth-form__input--error,
+.auth-form__textarea--error,
+.auth-form__file--error {
+    border-color: #dc3545;
+}
+
+.auth-form__error {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
