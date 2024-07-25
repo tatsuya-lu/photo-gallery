@@ -69,7 +69,7 @@
             </form>
 
             @if ($user)
-                <form method="POST" action="{{ route('account.delete') }}" class="auth-form__delete-form">
+                <form method="POST" action="{{ route('account.delete') }}" class="auth-form__delete-form" onsubmit="return confirm('投稿した写真等の関連情報も削除されます。本当にアカウントを削除しますか？');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="auth-form__delete-button">アカウント削除</button>
