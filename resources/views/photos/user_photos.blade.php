@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="gallery">
-        <h1 class="gallery__title">マイフォト</h1>
+        <h1 class="gallery__title">投稿した写真一覧</h1>
         <div class="gallery__grid">
             @foreach ($photos as $photo)
                 <div class="photo-card">
