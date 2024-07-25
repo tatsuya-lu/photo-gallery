@@ -4,7 +4,7 @@
 <div class="container">
     <div class="auth-form auth-form--login">
         <h2 class="auth-form__title">ログイン</h2>
-        <form method="POST" action="{{ route('login') }}" class="auth-form__form">
+        <form method="POST" action="{{ route('login') }}" class="auth-form__form" novalidate>
             @csrf
             <div class="auth-form__field">
                 <label for="email" class="auth-form__label">メールアドレス</label>

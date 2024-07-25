@@ -3,7 +3,7 @@
 @section('content')
 <div class="upload-form">
     <h1 class="upload-form__title">写真を投稿する</h1>
-    <form action="{{ route('photos.upload') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('photos.upload') }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
         <div class="upload-form__field">
             <label for="title" class="upload-form__label">タイトル</label>

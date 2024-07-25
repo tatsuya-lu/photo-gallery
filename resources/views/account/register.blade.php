@@ -4,7 +4,7 @@
 <div class="container">
     <div class="auth-form auth-form--{{ $user ? 'edit' : 'register' }}">
         <h2 class="auth-form__title">{{ $user ? 'アカウント編集' : 'アカウント登録' }}</h2>
-        <form method="POST" action="{{ $user ? route('account.update') : route('register') }}" enctype="multipart/form-data" class="auth-form__form">
+        <form method="POST" action="{{ $user ? route('account.update') : route('register') }}" enctype="multipart/form-data" class="auth-form__form" novalidate>
             @csrf
             @if($user)
                 @method('PUT')
